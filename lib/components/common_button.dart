@@ -7,7 +7,8 @@ import '../helper/string_helper.dart';
 
 class CommonButton extends StatelessWidget {
   final VoidCallback onPress;
-  const CommonButton({super.key, required this.onPress});
+  final Widget child;
+  const CommonButton({super.key, required this.onPress, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class CommonButton extends StatelessWidget {
           StringHelper.logIn,
           style: TextStyle(
               color: ColorsHelper.whiteColor,
-              fontSize: FontHelper.dimensn_10),
+              fontSize: FontHelper.dimensn_20),
         ),
       ),
     );

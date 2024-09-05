@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app_eith_clean_arc/components/common_button.dart';
 import 'package:weather_app_eith_clean_arc/helper/colors_helper.dart';
 import 'package:weather_app_eith_clean_arc/helper/dimensn_helper.dart';
 import 'package:weather_app_eith_clean_arc/helper/font_helper.dart';
@@ -44,18 +45,13 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: DimensnHelper.dimensn_20,
             ),
-            SizedBox(
-              height: DimensnHelper.dimensn_50,
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorsHelper.blueColor),
-                child: const Text(
-                  StringHelper.logIn,
-                  style: TextStyle(
-                      color: ColorsHelper.whiteColor,
-                      fontSize: FontHelper.dimensn_10),
+            CommonButton(
+              onPress: () {},
+              child: const Text(
+                StringHelper.logIn,
+                style: TextStyle(
+                    color: ColorsHelper.whiteColor,
+                    fontSize: FontHelper.dimensn_20
                 ),
               ),
             )
