@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import '../utiles/print_value.dart';
 
 Dio getDio(){
-  Dio dio = getDio();
+  Dio dio = Dio();
   dio.interceptors.add(InterceptorsWrapper(
     onRequest: (RequestOptions options,handler){
       printValue(tag:'API URL:','${options.uri}');
