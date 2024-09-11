@@ -1,4 +1,12 @@
-part of 'log_in_cubit.dart';
+
+
+
+
+
+
+import 'package:flutter/cupertino.dart';
+
+import '../../models/login_model.dart';
 
 @immutable
 sealed class LogInState {}

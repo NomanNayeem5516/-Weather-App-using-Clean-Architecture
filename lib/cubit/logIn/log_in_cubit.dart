@@ -6,9 +6,14 @@ import 'package:weather_app_eith_clean_arc/helper/storage_helper.dart';
 import 'package:weather_app_eith_clean_arc/models/login_model.dart';
 import 'package:weather_app_eith_clean_arc/screens/home_page.dart';
 
-import '../networkManager/repository.dart';
+import '../../networkManager/repository.dart';
+import 'log_in_state.dart';
 
-part 'log_in_state.dart';
+
+
+
+
+
 
 class LogInCubit extends Cubit<LogInState> {
   LogInCubit() : super(LogInInitial());
