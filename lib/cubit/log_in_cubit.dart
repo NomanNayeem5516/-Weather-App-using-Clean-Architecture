@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:weather_app_eith_clean_arc/helper/storage_helper.dart';
 import 'package:weather_app_eith_clean_arc/models/login_model.dart';
 import 'package:weather_app_eith_clean_arc/screens/home_page.dart';
 
@@ -22,6 +23,7 @@ class LogInCubit extends Cubit<LogInState> {
     };
     Repository().login(requestBody).then((value){
       emit(LogInLoaded(value));
+      StorageHelper().setUserAccessToken(value.accessToken??"");
       Navigator.push(context, MaterialPageRoute(builder: (context)=>const HomePage()));
 
       debugPrint('Data===>${value.toString()}');

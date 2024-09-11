@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app_eith_clean_arc/helper/storage_helper.dart';
 import 'package:weather_app_eith_clean_arc/screens/authScreens/splash_screen.dart';
 import 'package:weather_app_eith_clean_arc/screens/home_page.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+ await StorageHelper().init();
   runApp(const MyApp());
 }
 
