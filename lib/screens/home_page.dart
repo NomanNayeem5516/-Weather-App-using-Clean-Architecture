@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app_eith_clean_arc/cubit/currentLocation/current_location_cubit.dart';
 import 'package:weather_app_eith_clean_arc/helper/dimensn_helper.dart';
 import 'package:weather_app_eith_clean_arc/helper/storage_helper.dart';
+import 'package:weather_app_eith_clean_arc/screens/home_screen.dart';
 import 'package:weather_app_eith_clean_arc/utiles/loading_indicator.dart';
 
 import '../cubit/AutoCompletePlaces/auto_complete_places_cubit.dart';
@@ -81,6 +82,11 @@ class _HomePageState extends State<HomePage> {
                     itemCount: state.autoCompletePlaces.results?.length??0,
                      itemBuilder: (context,index){
                        return ListTile(
+                         onTap: (){
+                           StorageHelper().setUserLat(state.autoCompletePlaces.results?[index].latitude??0.0,);
+                           StorageHelper().setUserLng(state.autoCompletePlaces.results?[index].longitude??0.0,);
+                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                         },
                          leading: Icon(
                            Icons.location_on
                          ),
