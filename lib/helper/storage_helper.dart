@@ -14,6 +14,8 @@ class StorageHelper {
     sp = await SharedPreferences.getInstance();
   }
 
+  void clean (){sp.clear();}
+
   void setUserAccessToken(String token) {
     sp.setString('user_access_token', token);
   }

@@ -5,6 +5,7 @@ import 'package:weather_app_eith_clean_arc/helper/dimensn_helper.dart';
 import 'package:weather_app_eith_clean_arc/helper/storage_helper.dart';
 import 'package:weather_app_eith_clean_arc/utiles/loading_indicator.dart';
 
+import '../cubit/AutoCompletePlaces/auto_complete_places_cubit.dart';
 import '../helper/colors_helper.dart';
 import '../helper/string_helper.dart';
 
@@ -23,25 +24,30 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: ColorsHelper.primaryColor,
         title: const Text(StringHelper.location),
       ),
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  decoration:
-                      InputDecoration(hintText: StringHelper.enterPlace),
-                  onChanged: (String value) {},
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    decoration:
+                        InputDecoration(hintText: StringHelper.enterPlace),
+                    onChanged: (String value) {
+                      context.read<AutoCompletePlacesCubit>().autoCompletePlaces(value);
+                    },
+                  ),
                 ),
-              ),
-              BlocProvider(
-                  create: (context) => CurrentLocationCubit(),
-                  child: GestureDetector(onTap: () {
-                    context.read<CurrentLocationCubit>().grtGeoLocator(context);
-                  }, child:
-                      BlocBuilder<CurrentLocationCubit, CurrentLocationState>(
-                    builder: (context, state) {
-                      return Container(
+                BlocProvider(
+                    create: (context) => CurrentLocationCubit(),
+                    child: BlocBuilder<CurrentLocationCubit, CurrentLocationState>(
+                                        builder: (context, state) {
+                    return GestureDetector(
+                      onTap: (){
+                        context.read<CurrentLocationCubit>().grtGeoLocator(context);
+                      },
+                      child: Container(
                         margin: const EdgeInsets.only(
                             left: DimensnHelper.dimensn_10),
                         height: DimensnHelper.dimensn_50,
@@ -55,12 +61,42 @@ class _HomePageState extends State<HomePage> {
                                 Icons.my_location,
                                 color: ColorsHelper.whiteColor,
                               ),
-                      );
-                    },
-                  )))
-            ],
-          )
-        ],
+                      ),
+                    );
+                                        },
+                                      ))
+              ],
+            ),
+            BlocConsumer<AutoCompletePlacesCubit,AutoCompletePlacesState>(
+              listener: (context,state){
+                if(state is AutoCompletePlacesLoaded){
+
+                }
+              },
+              builder: (context,state){
+                if(state is AutoCompletePlacesLoaded){
+                  return ListView.builder(
+                    shrinkWrap: true,
+
+                    itemCount: state.autoCompletePlaces.results?.length??0,
+                     itemBuilder: (context,index){
+                       return ListTile(
+                         leading: Icon(
+                           Icons.location_on
+                         ),
+                           title: Text(state.autoCompletePlaces.results?[index].name??"",),
+                         subtitle: Text(state.autoCompletePlaces.results?[index].country??"",),
+                       );
+                     },
+                  );
+                }else{
+                  return const SizedBox();
+                }
+              },
+            )
+
+          ],
+        ),
       ),
     );
   }

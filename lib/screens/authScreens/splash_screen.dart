@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app_eith_clean_arc/helper/assets_helper.dart';
 import 'package:weather_app_eith_clean_arc/helper/dimensn_helper.dart';
+import 'package:weather_app_eith_clean_arc/helper/storage_helper.dart';
 import 'package:weather_app_eith_clean_arc/screens/authScreens/login_screen.dart';
+import 'package:weather_app_eith_clean_arc/screens/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,7 +18,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 3),(){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const LoginScreen()));
+     if(StorageHelper().getUserLat()==0.0){
+       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const LoginScreen()));
+     }else{
+       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreen()));
+     }
     });
     // TODO: implement initState
     super.initState();

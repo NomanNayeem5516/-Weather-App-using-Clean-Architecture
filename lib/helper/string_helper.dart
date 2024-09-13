@@ -12,4 +12,5 @@ class StringHelper{
   static const String location='Location';
   static const String enterPlace='Enter Place';
   static const String changeProfile='Change Profile';
+  static const String homeScreen='Home Screen';
 }
