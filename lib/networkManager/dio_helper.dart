@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:weather_app_eith_clean_arc/helper/storage_helper.dart';
 
 import 'injection_container.dart';
 
@@ -10,12 +11,13 @@ class DioHelper {
     sendTimeout: const Duration(seconds: 10),
     receiveTimeout: const Duration(seconds: 30),
   );
-  Map<String, dynamic> headers = {"isAuthRequest": 'Bearer token'};
+  Map<String, dynamic> headers = {"isAuthRequest": 'Bearer ${StorageHelper().getUserAccessToken()}'};
 
   /// GET API
 
   Future<dynamic> get(
       {required String url, bool isAuthRequired = false}) async {
+    if(isAuthRequired){options.headers=headers;}
     try {
       Response response = await dio.get(url, options: options);
       return response.data;

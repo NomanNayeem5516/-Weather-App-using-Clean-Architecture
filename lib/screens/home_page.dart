@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                          onTap: (){
                            StorageHelper().setUserLat(state.autoCompletePlaces.results?[index].latitude??0.0,);
                            StorageHelper().setUserLng(state.autoCompletePlaces.results?[index].longitude??0.0,);
-                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreen()));
                          },
                          leading: Icon(
                            Icons.location_on
