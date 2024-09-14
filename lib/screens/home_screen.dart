@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         leading: IconButton(onPressed: (){
           //StorageHelper().clean();
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>
           BlocProvider(
               create: (BuildContext context)=>UserProfileCubit(),
               child: const ProfileScreen())
