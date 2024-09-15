@@ -39,4 +39,13 @@ class StorageHelper {
   double getUseLng() {
     return sp.getDouble('user_lng') ?? 0.0;
   }
+
+  void setUserProfile(String token) {
+    sp.setString('user_profile_image', token);
+  }
+
+  String getUserProfile() {
+    return sp.getString('user_profile_image') ?? "";
+  }
+
 }

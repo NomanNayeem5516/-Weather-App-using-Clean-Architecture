@@ -26,7 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
               create: (BuildContext context)=>UserProfileCubit(),
               child: const ProfileScreen())
           ));
-        }, icon: const Icon(Icons.person)),
+        }, icon: CircleAvatar(
+          backgroundColor: ColorsHelper.blueColor,
+            child: const Icon(Icons.person))),
         backgroundColor: ColorsHelper.primaryColor,
         title: const Text(StringHelper.homeScreen),
         // actions: [
