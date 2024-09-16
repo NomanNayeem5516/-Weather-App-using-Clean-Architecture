@@ -1,5 +1,7 @@
 
 
+import 'package:weather_app_eith_clean_arc/models/current_weather_model.dart';
+
 import '../models/auto_complite_complite.dart';
 import '../models/change_profile_model.dart';
 import '../models/login_model.dart';
@@ -29,6 +31,11 @@ class Repository {
   Future<ChangeProfileModel>changeProfile(Object requestBody) async {
     Map<String,dynamic> response = await _dioHelper.uploadFile(url:'$baseUrl/api/v1/files/upload',requestBody:requestBody);
     return ChangeProfileModel.fromJson(response);
+  }
+
+  Future<CurrentWeatherModel>currentWeather(String lat,String lon) async {
+    Map<String,dynamic> response = await _dioHelper.get(url:'https://api.open-meteo.com/v1/forecast?latitude=$lat&longitude=$lon&current_weather=true',);
+    return CurrentWeatherModel.fromJson(response);
   }
 
 

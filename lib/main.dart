@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app_eith_clean_arc/cubit/AutoCompletePlaces/auto_complete_places_cubit.dart';
+import 'package:weather_app_eith_clean_arc/cubit/currentWeather/current_weather_cubit.dart';
 import 'package:weather_app_eith_clean_arc/helper/storage_helper.dart';
 import 'package:weather_app_eith_clean_arc/screens/authScreens/splash_screen.dart';
 import 'package:weather_app_eith_clean_arc/screens/home_page.dart';
@@ -18,8 +19,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => AutoCompletePlacesCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (BuildContext context) => AutoCompletePlacesCubit(), ),
+        BlocProvider(create: (BuildContext context) => CurrentWeatherCubit(), )
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',

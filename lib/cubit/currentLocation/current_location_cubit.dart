@@ -16,6 +16,9 @@ class CurrentLocationCubit extends Cubit<CurrentLocationState> {
     emit(CurrentLocationLoading());
     determinePosition().then((value){
       debugPrint('User Location==>Lat:${value.latitude}|| Lug:${value.longitude}');
+      StorageHelper().setUserLat(value.latitude);
+      StorageHelper().setUserLng(value.longitude);
+
 
       StorageHelper().setUserLat(value.latitude);
       StorageHelper().setUserLng(value.longitude);

@@ -22,7 +22,7 @@ class LogInCubit extends Cubit<LogInState> {
       emit(LogInLoaded(value));
       StorageHelper().setUserAccessToken(value.accessToken ?? "");
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const HomePage()));
+          context, MaterialPageRoute(builder: (context) => const HomePage(isPreviousScreen: false,)));
 
       debugPrint('Data===>${value.toString()}');
     }).onError((error, stackTrace) {

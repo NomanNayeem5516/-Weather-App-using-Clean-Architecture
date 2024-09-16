@@ -11,7 +11,8 @@ import '../helper/colors_helper.dart';
 import '../helper/string_helper.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final bool isPreviousScreen;
+  const HomePage({super.key, required this.isPreviousScreen});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -36,71 +37,96 @@ class _HomePageState extends State<HomePage> {
                     decoration:
                         InputDecoration(hintText: StringHelper.enterPlace),
                     onChanged: (String value) {
-                      context.read<AutoCompletePlacesCubit>().autoCompletePlaces(value);
+                      context
+                          .read<AutoCompletePlacesCubit>()
+                          .autoCompletePlaces(value);
                     },
                   ),
                 ),
                 BlocProvider(
                     create: (context) => CurrentLocationCubit(),
-                    child: BlocBuilder<CurrentLocationCubit, CurrentLocationState>(
-                                        builder: (context, state) {
-                    return GestureDetector(
-                      onTap: (){
-                        context.read<CurrentLocationCubit>().grtGeoLocator(context);
+                    child:
+                        BlocBuilder<CurrentLocationCubit, CurrentLocationState>(
+                      builder: (context, state) {
+                        return GestureDetector(
+                          onTap: () {
+                            context
+                                .read<CurrentLocationCubit>()
+                                .grtGeoLocator(context);
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(
+                                left: DimensnHelper.dimensn_10),
+                            height: DimensnHelper.dimensn_50,
+                            width: DimensnHelper.dimensn_50,
+                            decoration: const BoxDecoration(
+                                color: ColorsHelper.blueColor,
+                                shape: BoxShape.circle),
+                            child: state is CurrentLocationLoading
+                                ? loadingIndicator()
+                                : const Icon(
+                                    Icons.my_location,
+                                    color: ColorsHelper.whiteColor,
+                                  ),
+                          ),
+                        );
                       },
-                      child: Container(
-                        margin: const EdgeInsets.only(
-                            left: DimensnHelper.dimensn_10),
-                        height: DimensnHelper.dimensn_50,
-                        width: DimensnHelper.dimensn_50,
-                        decoration: const BoxDecoration(
-                            color: ColorsHelper.blueColor,
-                            shape: BoxShape.circle),
-                        child: state is CurrentLocationLoading
-                            ? loadingIndicator()
-                            : const Icon(
-                                Icons.my_location,
-                                color: ColorsHelper.whiteColor,
-                              ),
-                      ),
-                    );
-                                        },
-                                      ))
+                    ))
               ],
             ),
-            BlocConsumer<AutoCompletePlacesCubit,AutoCompletePlacesState>(
-              listener: (context,state){
-                if(state is AutoCompletePlacesLoaded){
-
-                }
+            BlocConsumer<AutoCompletePlacesCubit, AutoCompletePlacesState>(
+              listener: (context, state) {
+                if (state is AutoCompletePlacesLoaded) {}
               },
-              builder: (context,state){
-                if(state is AutoCompletePlacesLoaded){
+              builder: (context, state) {
+                if (state is AutoCompletePlacesLoaded) {
                   return ListView.builder(
                     shrinkWrap: true,
+                    itemCount: state.autoCompletePlaces.results?.length ?? 0,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        onTap: () {
+                          if(widget.isPreviousScreen){
+                            Map prams= {
+                              'lat': state.autoCompletePlaces.results?[index].latitude ??0.0,
+                              'lng':state.autoCompletePlaces.results?[index].longitude ??0.0,};
+                            Navigator.pop(context,prams);
+                          }else{
+                            StorageHelper().setUserLat(
+                              state.autoCompletePlaces.results?[index].latitude ??
+                                  0.0,
+                            );
+                            StorageHelper().setUserLng(
+                              state.autoCompletePlaces.results?[index]
+                                  .longitude ??
+                                  0.0,
+                            );
 
-                    itemCount: state.autoCompletePlaces.results?.length??0,
-                     itemBuilder: (context,index){
-                       return ListTile(
-                         onTap: (){
-                           StorageHelper().setUserLat(state.autoCompletePlaces.results?[index].latitude??0.0,);
-                           StorageHelper().setUserLng(state.autoCompletePlaces.results?[index].longitude??0.0,);
-                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreen()));
-                         },
-                         leading: Icon(
-                           Icons.location_on
-                         ),
-                           title: Text(state.autoCompletePlaces.results?[index].name??"",),
-                         subtitle: Text(state.autoCompletePlaces.results?[index].country??"",),
-                       );
-                     },
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const HomeScreen()));
+
+
+                          }
+
+                          },
+                        leading: Icon(Icons.location_on),
+                        title: Text(
+                          state.autoCompletePlaces.results?[index].name ?? "",
+                        ),
+                        subtitle: Text(
+                          state.autoCompletePlaces.results?[index].country ??
+                              "",
+                        ),
+                      );
+                    },
                   );
-                }else{
+                } else {
                   return const SizedBox();
                 }
               },
             )
-
           ],
         ),
       ),
