@@ -12,18 +12,28 @@ part 'current_location_state.dart';
 class CurrentLocationCubit extends Cubit<CurrentLocationState> {
   CurrentLocationCubit() : super(CurrentLocationInitial());
 
-  grtGeoLocator(BuildContext context){
+  grtGeoLocator(BuildContext context,bool isPreviousScreen){
     emit(CurrentLocationLoading());
     determinePosition().then((value){
       debugPrint('User Location==>Lat:${value.latitude}|| Lug:${value.longitude}');
-      StorageHelper().setUserLat(value.latitude);
-      StorageHelper().setUserLng(value.longitude);
 
 
-      StorageHelper().setUserLat(value.latitude);
-      StorageHelper().setUserLng(value.longitude);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const HomeScreen()));
+      if(isPreviousScreen){
+        Map prams= {
+          'lat': value.latitude ,
+          'lng':value.longitude ,};
+        Navigator.pop(context,prams);
+      }else{
+        StorageHelper().setUserLat(value.latitude);
+        StorageHelper().setUserLng(value.longitude );
 
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const HomeScreen()));
+
+
+      }
       emit(CurrentLocationLoaded());
     }).onError((error,stackTrace){
       emit(CurrentLocationError());

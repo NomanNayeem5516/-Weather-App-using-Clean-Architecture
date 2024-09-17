@@ -6,6 +6,7 @@ import 'package:weather_app_eith_clean_arc/helper/storage_helper.dart';
 import 'package:weather_app_eith_clean_arc/screens/home_screen.dart';
 import 'package:weather_app_eith_clean_arc/utiles/loading_indicator.dart';
 
+import '../components/location_button.dart';
 import '../cubit/AutoCompletePlaces/auto_complete_places_cubit.dart';
 import '../helper/colors_helper.dart';
 import '../helper/string_helper.dart';
@@ -43,35 +44,7 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 ),
-                BlocProvider(
-                    create: (context) => CurrentLocationCubit(),
-                    child:
-                        BlocBuilder<CurrentLocationCubit, CurrentLocationState>(
-                      builder: (context, state) {
-                        return GestureDetector(
-                          onTap: () {
-                            context
-                                .read<CurrentLocationCubit>()
-                                .grtGeoLocator(context);
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(
-                                left: DimensnHelper.dimensn_10),
-                            height: DimensnHelper.dimensn_50,
-                            width: DimensnHelper.dimensn_50,
-                            decoration: const BoxDecoration(
-                                color: ColorsHelper.blueColor,
-                                shape: BoxShape.circle),
-                            child: state is CurrentLocationLoading
-                                ? loadingIndicator()
-                                : const Icon(
-                                    Icons.my_location,
-                                    color: ColorsHelper.whiteColor,
-                                  ),
-                          ),
-                        );
-                      },
-                    ))
+                LocationButton(isPreviousScreen: widget.isPreviousScreen,)
               ],
             ),
             BlocConsumer<AutoCompletePlacesCubit, AutoCompletePlacesState>(

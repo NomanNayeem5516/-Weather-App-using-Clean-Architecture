@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
               onPressed: () async {
                 //StorageHelper().clean();
-                var param = Navigator.push(
+                var param =await Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const HomePage(
@@ -66,7 +66,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             )));
 
                 if (param != null) {
-                  print(param);
+                  saveAddressPopup(param['lat'],param['lng']);
+
+                  context.read<CurrentWeatherCubit>().currentWeather(
+                      param['lat'].toString(),
+                      param['lng'].toString());
 
                 }
               },
@@ -94,8 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget contentWidhet(
-      CurrentWeatherModel currentWeatherModel, String address) {
+  Widget contentWidhet(CurrentWeatherModel currentWeatherModel, String address) {
     return Center(
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -148,6 +151,37 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+    );
+  }
+  Future<void>saveAddressPopup(double lat,double lng) async{
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext constant){
+          return AlertDialog(
+            title: Text('Do You Want To Save This Addredd'),
+            content: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: ListBody(
+                children: [
+                  Text(''),
+                  Text(''),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(onPressed: (){
+                Navigator.of(context).pop();
+              }, child: Text('Cancel')),
+
+              TextButton(onPressed: (){
+                StorageHelper().setUserLat(lat);
+                StorageHelper().setUserLng(lng);
+                Navigator.of(context).pop();
+              }, child: Text('Save'))
+            ],
+          );
+        }
     );
   }
 }
